@@ -11,6 +11,8 @@ const { getAvatars, codePosts, getAvatar } = require('./src/controllers/avatars'
 const { salesperson } = require('./src/db/db');
 
 
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 app.use(express.json());
 
@@ -99,7 +101,8 @@ app.post('/app/money/post/salesperson/', registerLessMoney);
 app.get('/app/money/get/:salespersonId', getAllMoneyByUser);
 // Definimos una fecha para recoger el dinero.
 app.post('/app/money/receive/post/date', defineNewTime);
-const server = app.listen(3000, () => {
+
+const server = app.listen(PORT, () => {
     db.sync();
-    console.log(`Server running on port ${3000}`);
+    console.log(`Server running on port ${PORT}`);
 })
