@@ -100,7 +100,10 @@ module.exports = {
                     const add = await salesperson_active.create({
                         salespersonId: salespersonId,
                         lotteryId: lotteryId  
-                    }).catch(err => null);
+                    }).catch(err => {
+                        console.log(err);
+                        return null
+                    });
         
                     if(!add) return res.status(502).json({msg: 'No hemos podido inscribir este sorteo'});
                     res.status(201).json({msg: 'Suscripto con exito.'});

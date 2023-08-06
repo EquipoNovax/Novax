@@ -48,12 +48,14 @@ module.exports = {
                 include: [{
                     model: lottery,
                     through: { attributes: [] }, 
+                    required: true,
                     where: {
                         id: lotteryId,
                         state: 'active',
                     }
                 }]
             }).catch(err => {
+                console.log('paila');
                 console.log(err);
                 return null
             });
