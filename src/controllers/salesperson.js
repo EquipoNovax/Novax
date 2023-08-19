@@ -122,8 +122,12 @@ module.exports = {
                 where: {
                     movil:phone
                 }
-            }).catch(err => null);
+            }).catch(err => {
+                console.log(err);
+                return null;
+            });
             if(!usuario) {
+                console.log('xdd');
                 return res.status(404).json({msg: 'Usuario no encontrado'});
             }
 

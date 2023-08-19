@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const {db, Op } = require('./src/db/db');
 const { signUp, allTeam } = require('./src/controllers/user');
-const { createLoterry, updateStateLottery, addImages, getGames, getGameById, createGift, getHistoryGame, getLotteryWinner, Sorteo } = require('./src/controllers/lottery');
+const { createLoterry, updateStateLottery, addImages, getGames, getGameById, createGift, getHistoryGame, getLotteryWinner, Sorteo, getGamesByClient } = require('./src/controllers/lottery');
 const { validatePhone, newUser, signInApp, getAllGames, changePassword, suscribeToGame } = require('./src/controllers/salesperson');
 const { getAvatars, codePosts, getAvatar } = require('./src/controllers/avatars');
 
@@ -87,6 +87,7 @@ app.get('/app/game/sorteo/:gameId', Sorteo); // Obtenemos el sorteo desde la id
 app.get('/app/salesperson/:salespersonId', getAllGames); // Buscamos  todos los juegos que el vendedor esta vendiendo.
 app.get('/app/games/salesperson/history/:id', getHistoryGame);  // Buscamos el historial de juegos de una cuenta.
 app.get('/app/games/winner/:salespersonId/:lotteryId', getLotteryWinner);
+app.get('/app/clients/game/:gameId', getGamesByClient); // Obtenemos el usuario por el cliente. 
 
 // Suscribir al sorteo
 app.post('/app/game/suscribe/', suscribeToGame);

@@ -3,6 +3,23 @@ const { salesperson, lottery, imageToLottery, gift, number, ticket } = require('
 // Funciones que necesito
 
 module.exports = {
+    // Revisamos si existe número ganador en el sorteo
+    async getNumberWinner(req, res){
+        const { lotteryId } = req.params; // Obtenemos el sorteo por parámetro
+
+        // Buscamos el sorteo. 
+        const searchLottery = await lottery.findByPk(lotteryId, {
+            attributes: { exclude: [createdAt, updatedAt]}
+        }).catch(err => null);
+        if(!searchLottery) return res.status(404).json({msg: 'No hemos encontrado este sorteo.'});
+        // Si el sorteo si existe, avanzamos a consultar
+
+        const searchNumber = await number.findAll({
+            where: {
+                
+            }
+        })
+    },
     // Obtener el sorteo dessde la web
     async Sorteo(req, res){
         try {
@@ -33,6 +50,36 @@ module.exports = {
             res.status(500).json({msg: 'Ha ocurrido un error'});
         }
     },
+    // Obtenemos el sorteo para el client.
+    async getGamesByClient(req, res){
+        try {
+            // Recogemos los datos por parametros
+            const { gameId } = req.params;
+            // Revisamos el ID
+            if(!gameId) return res.status(501).json({msg: 'El parámetro no es valido.'});
+            // Continuamos...
+            
+            // Buscamos el juego
+            const searchGame = await lottery.findOne({
+                where: {
+                    id:gameId,
+                    state:'active'
+                },
+                include: [ {
+                    model: imageToLottery,
+                    as: 'imagenes'
+                }],
+                attributes: ['id', 'name', 'img', 'description', 'nivel', 'price','comision', 'playWith', 'start', 'finish', 'state', 'winner']
+            }).catch(err => null);
+
+            if(!searchGame) return res.status(404).json({msg: 'No hemos encontrado este juego.'});
+            
+            // caso contrario...
+            res.status(200).json({game: searchGame})
+        }catch(err){
+            console.log(err);
+        }
+    },
     // See Game for gamer 
     async getLotteryWinner(req, res){
         try{
@@ -58,7 +105,11 @@ module.exports = {
                     }, {
                         model: ticket,
                         as: 'vendidos',
-                        attributes: {exclude: ['createdAt', 'updatedAt']}
+                        where: {
+                            salespersonId: salespersonId
+                        },
+                        attributes: {exclude: ['createdAt', 'updatedAt']},
+                        required: true,
                     }, {
                         model:number,
                         as: 'numeros',
@@ -66,7 +117,7 @@ module.exports = {
                         where: {
                             salespersonId: salespersonId
                         },
-                        require: false
+                        required: true
                     }],
                 order: [{model: ticket, as: 'vendidos'}, 'createdAt', 'DESC'],
                 }],
@@ -165,7 +216,10 @@ module.exports = {
                     state: 'active'
                 },
                 
-            }).catch(err => null);
+            }).catch(err => {
+                console.log(err);
+                return null;
+            });
             
             if(!searchUser) {
                 console.log('este es el error');
