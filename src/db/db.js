@@ -16,7 +16,7 @@ const modelMoney = require('./model/money');    // Modelo de dinero
 const modelComission = require('./model/comisiones');   // Modelo de comisiones
 // Configuración de la conexión
 
-const entorno = false; 
+const entorno = true; 
 
 let dburl = entorno ? 'postgresql://postgres:JStlLHdfw1jM2qmdhzFS@containers-us-west-66.railway.app:6622/railway' : 'postgres:postgres:123@localhost:5432/novax';
 
