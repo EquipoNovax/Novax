@@ -18,7 +18,7 @@ const modelComission = require('./model/comisiones');   // Modelo de comisiones
 
 const entorno = true; 
 
-let dburl = entorno ? 'postgresql://postgres:JStlLHdfw1jM2qmdhzFS@containers-us-west-66.railway.app:6622/railway' : 'postgres:postgres:123@localhost:5432/novax';
+let dburl = entorno ? 'postgresql://postgres:hpKnQfWUkIfAepYqstXFMxvYKopaMIOg@postgres.railway.internal:5432/railway' : 'postgres:postgres:123@localhost:5432/novax';
 
     const sequelize = new Sequelize(dburl, {
         logging: false,
